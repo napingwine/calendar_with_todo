@@ -1,0 +1,57 @@
+.header {
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.add-new-event-btn {
+  border: none;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  background: rgb(73, 160, 175);
+  color: #fff;
+  -webkit-box-shadow: 0px 7px 15px -7px #000000;
+  box-shadow: 0px 7px 15px -7px #000000;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-new-event-btn:hover {
+  transform: scale(1.1);
+}
+
+.date-button-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.month-selector-btn-next,
+.month-selector-btn-prev {
+  background: none;
+  padding: 3px;
+  border: none;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  cursor: pointer;
+  margin-top: 2px;
+}
+
+.month-selector-btn-next {
+  transform: rotate(135deg);
+}
+
+.month-selector-btn-prev {
+  transform: rotate(-45deg);
+}
+
+.data-picker::-webkit-datetime-edit,
+.data-picker::-webkit-datetime-edit-text,
+.data-picker::-webkit-datetime-edit-month-field,
+.data-picker::-webkit-datetime-edit-day-field,
+.data-picker::-webkit-datetime-edit-year-field {
+  display: none;
+}

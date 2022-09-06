@@ -1,0 +1,40 @@
+.calendar_grid__day {
+  padding: 5px;
+  border: 1px solid rgb(211, 211, 211);
+  height: 15vh;
+  min-height: 150px;
+  margin-top: -1px;
+  margin-right: -1px;
+}
+
+.prev-and-next-month {
+  opacity: 0.4;
+}
+
+.current-day {
+  background-color: rgb(198, 250, 193)
+}
+
+.calendar__day__date {
+  display: flex;
+  padding: 5px;
+  justify-content: space-between;
+}
+
+.calendar__day__event-wrapper {
+  overflow: auto;
+  max-height: 75%;
+}
+
+.calendar__day__event {
+  background-color: lightgrey;
+  padding: 3px;
+  margin-bottom: 2px;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+}
+

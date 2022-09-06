@@ -1,0 +1,135 @@
+.form-wrapper {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.form-content {
+  padding: 30px;
+  background-color: #fff;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 400px;
+}
+
+.form-content>form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-content>form>* {
+  margin: 10px 0;
+}
+
+
+.form-content>form label {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-content>form label>span {
+  font-size: 14px;
+  color: gray;
+  padding: 10px 0;
+}
+
+form>.btn-wrapper {
+  align-self: flex-end;
+  align-items: center;
+  display: flex;
+}
+
+form input,
+form textarea,
+form input:focus-visible {
+  font-size: 20px;
+  outline: 0;
+  outline-offset: 0;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+form textarea[name=description] {
+  height: 300px;
+  resize: none;
+}
+
+.date_setter_wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.close-btn {
+  padding: 5px;
+  background: none;
+  border: none;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+.close-btn>span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 15px;
+  height: 1px;
+  border-radius: 9px;
+  background: #000;
+}
+
+.close-btn>span:first-child {
+  transform: rotate(45deg);
+}
+
+.close-btn>span:last-child {
+  transform: rotate(135deg);
+}
+
+.form__save-btn,
+.form__del-btn {
+  box-shadow: 7px 7px 10px -7px #000000;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  transition: all ease-in-out 0.2s;
+}
+
+.form__save-btn {
+  padding: 10px 15px;
+  background-color: #000;
+  border: none;
+}
+
+.form__save-btn:hover {
+  color: #000;
+  background: white;
+}
+
+.form__del-btn {
+  background-color: rgb(230, 0, 70);
+  margin-right: 10px;
+  border: none;
+}
+
+.form__del-btn img {
+  height: 32px;
+}
+
+.form__del-btn:hover {
+  background: gray;
+}
