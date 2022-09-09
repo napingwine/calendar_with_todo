@@ -14,23 +14,30 @@ const Calendar = () => {
   } = useCustomContext();
 
   const selectedMonth = selectedYearAndMonth.format("MMM");
-  
+
   useEffect(() => {
     const [year, month] = selectedYearAndMonth.format("YYYY MM").split(" ");
+
     getTasksForThisMonth({ year, month }).then(res => {
       const startDay = selectedYearAndMonth.clone().set(selectedYearAndMonth._d).startOf("month").startOf("week");
       const endDay = selectedYearAndMonth.clone().set(selectedYearAndMonth._d).endOf("month").endOf("week");
       const curMonths = [];
-      let day = startDay.clone();
+      const day = startDay.clone();
+
+      const taskByDate = res.reduce((acc, task) => {
+        acc[task.taskDate] = acc[task.taskDate] || [];
+        acc[task.taskDate].push(task);
+        return acc;
+      }, {});
+
       while (!day.isAfter(endDay)) {
-        const newDay = {
-          curDay: day.clone()
-        };
-        const [iMonth, iDay] = day.format("MM DD").split(" ");
-        if (res[iMonth]?.[iDay]) newDay.tasks = res[iMonth][iDay];
+        const newDay = { curDay: day.clone() };
+        const curDay = day.format("YYYY-MM-DD");
+        if (taskByDate[curDay]) newDay.tasks = taskByDate[curDay];
         curMonths.push(newDay);
         day.add(1, "day");
       };
+
       setCurDisplayedDays(curMonths);
     });
   }, [selectedYearAndMonth]);
@@ -49,4 +56,4 @@ const Calendar = () => {
   );
 };
 
-export default React.memo(Calendar);
+export default Calendar;

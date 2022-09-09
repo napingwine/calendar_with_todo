@@ -4,8 +4,9 @@ import "./Form.css";
 import uniqid from "uniqid";
 import bin from "../../assets/bin.png";
 import useCustomContext from "../../hooks/customContext";
+import {updateTask, deleteTask, postTask} from "../../service/TODOSAPI.js"
 
-const Form = ({ postNewEvent, updateEvent, deleteEvent }) => {
+const Form = () => {
 
   const today = moment();
   const { formMode, setFormMode, formData, setFormData } = useCustomContext();
@@ -34,25 +35,31 @@ const Form = ({ postNewEvent, updateEvent, deleteEvent }) => {
       } else {
         newFormData.taskDate = taskDate;
       }
-    }
+    };
 
     if (form.title.value && form.date.value) {
       if (formMode === "add") {
         newFormData.createdAt = today.format("YYYY-MM-DD HH:mm");
-        postNewEvent(newFormData);
+        postTask(newFormData);
       } else {
         newFormData.createdAt = formData.createdAt;
         newFormData.updatedAt = today.format("YYYY-MM-DD HH:mm");
-        updateEvent(newFormData);
+        updateTask(newFormData);
       }
       setFormData();
       hideForm();
-    }
+    };
   };
 
   const onDeleteEventBTN = (e) => {
     e.preventDefault();
-    deleteEvent(formData);
+    deleteTask(formData.id).then(res =>{ 
+      if (res.status === 200) {
+        
+      } else {
+        alert(res.status)
+      }
+    })
     hideForm();
   };
 

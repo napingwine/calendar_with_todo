@@ -1,47 +1,59 @@
-export const getTasksForThisMonth = ({ year, month }) => {
-  const events = JSON.parse(localStorage.getItem("allTasks")) || {};
-  let response = {};
-  if (events[year]) response = events[year][month];
+const axios = {
+  get: (url) => {
+    const urlObj = new URL(url);
+    const searchYear = urlObj.searchParams.get('year');
+    const searchMonth = urlObj.searchParams.get('month');
+    const events = JSON.parse(localStorage.getItem("allTasks")) || [];
+    const response = events.filter(el => {
+      const [taskYear, taskMonth] = el.taskDate.split('-');
+      return taskYear === searchYear && taskMonth === searchMonth
+    })
+    return new Promise((res, rej) => res({ data: response }));
+  },
 
-  return new Promise((res, rej) => res({ [month]: response }));
+  post: (url, body) => {
+    const events = JSON.parse(localStorage.getItem("allTasks")) || [];
+    events.push(body)
+    localStorage.setItem("allTasks", JSON.stringify(events));
+    return new Promise((res, rej) => res({ status: 200 }));
+  },
+
+  update: (url, body) => {
+    const oldTasks = JSON.parse(localStorage.getItem("allTasks"));
+    const newTasks = oldTasks.map(el => {
+      if (el.id === body.id) {
+        return body;
+      }
+      return el;
+    });
+    localStorage.setItem("allTasks", JSON.stringify(newTasks));
+    return new Promise((res, rej) => res({ status: 200 }));
+  },
+
+  delete: (url) => {
+    const urlObj = new URL(url);
+    const taskID = urlObj.pathname.split('/').at(-1);
+    const oldTasks = JSON.parse(localStorage.getItem("allTasks"));
+    const newTasks = oldTasks.filter(el => el.id !== taskID)
+    localStorage.setItem("allTasks", JSON.stringify(newTasks));
+    return new Promise((res, rej) => res({ status: 200 }));
+  }
+};
+
+const newURL = 'http://localhost:3000/task/';
+
+export const getTasksForThisMonth = ({ year, month }) => {
+  return axios.get(`${newURL}task?year=${year}&month=${month}`).then(res => res.data);
 };
 
 export const postTask = (task) => {
-  const events = JSON.parse(localStorage.getItem("allTasks")) || {};
-  const [year, month, day] = task.taskDate.split(" ")[0].split("-");
-  if (!events[year]) events[year] = {};
-  if (!events[year][month]) events[year][month] = {};
-  if (!events[year][month][day]) {
-    events[year][month][day] = [task];
-  } else {
-    events[year][month][day].push(task);
-  }
-  localStorage.setItem("allTasks", JSON.stringify(events));
-
-  return new Promise((res, rej) => res({ status: 200 }));
+  return axios.post(newURL, task);
 };
 
 export const updateTask = (task) => {
-  const events = JSON.parse(localStorage.getItem("allTasks"));
-  const [year, month, day] = task.taskDate.split(" ")[0].split("-");
-  let eventsOfDay = events[year][month][day];
-  events[year][month][day] = eventsOfDay.map(el => {
-    if (el.id === task.id) {
-      return task;
-    }
-    return el;
-  });
-  localStorage.setItem("allTasks", JSON.stringify(events));
-
-  return new Promise((res, rej) => res({ status: 200 }));
+  return axios.update(newURL, task);
 };
 
-export const deleteTask = (task) => {
-  const events = JSON.parse(localStorage.getItem("allTasks"));
-  const [year, month, day] = task.taskDate.split(" ")[0].split("-");
-  const eventsOfDay = events[year][month][day];
-  events[year][month][day] = eventsOfDay.filter(el => el.id !== task.id);
-  localStorage.setItem("allTasks", JSON.stringify(events));
-
-  return new Promise((res, rej) => res({ status: 200 }));
+export const deleteTask = (id) => {
+  return axios.delete(`${newURL}${id}`);
 };

@@ -3,7 +3,7 @@ import React from "react";
 import "./CalendarDay.css";
 
 const CalendarDay = ({ dayData, selectedMonth, setFormMode, setFormData }) => {
-  
+
   const setStyle = () => {
     const month = dayData.curDay.format("MMM");
     if (month !== selectedMonth) {
@@ -42,4 +42,3 @@ const CalendarDay = ({ dayData, selectedMonth, setFormMode, setFormData }) => {
 }
 
 export default CalendarDay;
-
