@@ -1,16 +1,14 @@
 export const getTasksForThisMonth = ({ year, month }) => {
-  let events = JSON.parse(localStorage.getItem("allTasks"));
+  const events = JSON.parse(localStorage.getItem("allTasks")) || {};
   let response = {};
-  if (events === null) events = {};
   if (events[year]) response = events[year][month];
+
   return new Promise((res, rej) => res({ [month]: response }));
 };
 
 export const postTask = (task) => {
-  let events = JSON.parse(localStorage.getItem("allTasks"));
-  console.log(task);
+  const events = JSON.parse(localStorage.getItem("allTasks")) || {};
   const [year, month, day] = task.taskDate.split(" ")[0].split("-");
-  if (events === null) events = {};
   if (!events[year]) events[year] = {};
   if (!events[year][month]) events[year][month] = {};
   if (!events[year][month][day]) {
@@ -19,6 +17,7 @@ export const postTask = (task) => {
     events[year][month][day].push(task);
   }
   localStorage.setItem("allTasks", JSON.stringify(events));
+
   return new Promise((res, rej) => res({ status: 200 }));
 };
 
@@ -33,6 +32,7 @@ export const updateTask = (task) => {
     return el;
   });
   localStorage.setItem("allTasks", JSON.stringify(events));
+
   return new Promise((res, rej) => res({ status: 200 }));
 };
 
@@ -42,5 +42,6 @@ export const deleteTask = (task) => {
   const eventsOfDay = events[year][month][day];
   events[year][month][day] = eventsOfDay.filter(el => el.id !== task.id);
   localStorage.setItem("allTasks", JSON.stringify(events));
+
   return new Promise((res, rej) => res({ status: 200 }));
 };

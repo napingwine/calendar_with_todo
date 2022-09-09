@@ -1,8 +1,27 @@
 import moment from "moment";
 import React from "react";
+import useCustomContext from "../../hooks/customContext";
 import "./Header.css";
 
-const Header = ({ selectedYearAndMonth, nextMonth, prevMonth, setSelectedYearAndMonth, setFormMode }) => {
+const Header = () => {
+  const { setSelectedYearAndMonth, selectedYearAndMonth, setFormMode } = useCustomContext();
+
+  const nextMonth = () => {
+    setSelectedYearAndMonth(prev => {
+      const newDate = prev.clone().add(1, "month");
+      localStorage.setItem("selectedDate", JSON.stringify(newDate));
+      return newDate;
+    });
+  };
+
+  const prevMonth = () => {
+    setSelectedYearAndMonth(prev => {
+      const newDate = prev.clone().subtract(1, "month");
+      localStorage.setItem("selectedDate", JSON.stringify(newDate));
+      return newDate;
+    });
+  };
+
   const onDataPicker = (data) => {
     data = data.target.value.split("-");
     const newDate = moment({ "year": data[0], "month": data[1] - 1 });

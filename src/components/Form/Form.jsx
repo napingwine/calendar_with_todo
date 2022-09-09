@@ -3,9 +3,12 @@ import React, { useEffect, useState } from "react";
 import "./Form.css";
 import uniqid from "uniqid";
 import bin from "../../assets/bin.png";
+import useCustomContext from "../../hooks/customContext";
 
-const Form = ({ setFormMode, setFormData, formData, formMode, postNewEvent, updateEvent, deleteEvent }) => {
+const Form = ({ postNewEvent, updateEvent, deleteEvent }) => {
+
   const today = moment();
+  const { formMode, setFormMode, formData, setFormData } = useCustomContext();
   const [newUpdateDate, setNewUpdateDate] = useState();
   const [newUpdateTime, setNewUpdateTime] = useState();
 
